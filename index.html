@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>YouTube bulk view</title>
+    <style>
+        iframe {
+            width: 480px;
+            height: 270px;
+            margin: 0 4px 0 0;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <p>Run the code below on the playlist page to get the URLs</p>
+    <pre>
+var list = document.getElementsByClassName("yt-simple-endpoint inline-block style-scope ytd-thumbnail");
+var res = "";
+for (let i of list) {
+    if (i.href == "") continue;
+    res += i.href.substring(0, i.href.indexOf("&")) + "\n";
+}
+console.log(res);
+    </pre>
+    <p>Then paste the URLs</p>
+    <textarea id="urls" cols=50></textarea>
+    <br>
+    <button onclick="load()">Load</button>
+    <br>
+    <br>
+    <div id="result"></div>
+
+    <script>
+        function load() {
+            document.getElementById("result").innerText = "";
+            var lines = document.getElementById("urls").value.split("\n");
+            for (var i = 0; i < lines.length; i++) {
+                document.getElementById("result").innerHTML +=
+                    "<iframe src='https://www.youtube.com/embed/" + lines[i].slice(lines[i].indexOf("=") + 1) + "'></iframe>"
+            }
+        }
+    </script>
+</body>
+
+</html>
